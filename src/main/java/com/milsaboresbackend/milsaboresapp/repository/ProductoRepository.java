@@ -12,7 +12,7 @@ import com.milsaboresbackend.milsaboresapp.model.Producto;
 public interface ProductoRepository extends JpaRepository<Producto, Long> {
     
     //Busca productos por categoria
-    List<Producto> findByCategProd(String categoriaId);
+    List<Producto> findByCategProd(String categProd);
 
     //Busca productos por nombre (contiene)
     List<Producto> findByNombreProdContainingIgnoreCase(String nombreProd);
