@@ -24,7 +24,7 @@ public class Producto {
 
     @NotBlank(message = "El nombre del producto es obligatorio")
     @Size(max = 200, message = "El nombre del producto no puede exceder los 200 caracteres")
-    @Column(name = "nombre_prod", nullable = false, length = 100)
+    @Column(name = "nombre_prod", nullable = false, length = 200)
     private String nombreProd;
 
     @NotBlank(message = "La descripción del producto es obligatoria")
