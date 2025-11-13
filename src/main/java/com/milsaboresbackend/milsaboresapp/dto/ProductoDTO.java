@@ -12,5 +12,5 @@ public class ProductoDTO {
     private String descProd;
     private Double precioProd;
     private String imagenProd;
-    
+    private Boolean productoDestacado;
 }

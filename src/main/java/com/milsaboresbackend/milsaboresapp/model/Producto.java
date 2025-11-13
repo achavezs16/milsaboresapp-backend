@@ -39,6 +39,10 @@ public class Producto {
 
     @Column(name = "imagen_prod", length = 300)
     private String imagenProd;
+
+    @Column(name = "producto_destacado")
+    @Builder.Default
+    private Boolean productoDestacado = false;
     
     
 }

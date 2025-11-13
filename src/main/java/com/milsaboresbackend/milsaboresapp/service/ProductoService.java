@@ -99,5 +99,9 @@ public class ProductoService {
         }
         return categorias;
     }
+
+    public List<Producto> obtenerProductosDestacados() {
+        return productoRepository.findByProductoDestacadoTrue();
+    }
     
 }

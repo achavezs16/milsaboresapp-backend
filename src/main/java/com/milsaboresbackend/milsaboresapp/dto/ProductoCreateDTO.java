@@ -25,5 +25,7 @@ public class ProductoCreateDTO {
     private Double precioProd;
 
     private String imagenProd;
+
+    private Boolean productoDestacado;
     
 }

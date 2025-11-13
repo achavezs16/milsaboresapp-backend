@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -163,7 +164,7 @@ public class ProductoController {
         }
     }
     
-    //Buscar productos por nombre
+    //Buscar productos por nombre //REVISAR!! NO BUSCA POR NOMBRE
     @GetMapping("/buscar")
     public ResponseEntity<?> buscarPorNombre(@RequestParam String nombre) {
         try {
@@ -179,7 +180,7 @@ public class ProductoController {
         }
     }
 
-    //Buscar por rango de precio
+    //Buscar por rango de precio 
     @GetMapping("/precio")
     public ResponseEntity<?> buscarPorRangoPrecio(@RequestParam Double precioMin, @RequestParam Double precioMax) {
         try {
@@ -195,7 +196,7 @@ public class ProductoController {
         }
     }
 
-    //Obtener todas las categorias
+    //Obtener todas las categorias 
     @GetMapping("/categorias")
     public ResponseEntity<?> obtenerCategorias() {
         try {
@@ -211,6 +212,14 @@ public class ProductoController {
         }
     }
     
+    @GetMapping("/destacados")
+    public ResponseEntity<List<ProductoDTO>> obtenerProductosDestacados() {
+        List<Producto> productosDestacados = productoService.obtenerProductosDestacados();
+        List<ProductoDTO> productosDTO = productosDestacados.stream()
+            .map(productoToDTOConverter::convert)
+            .collect(Collectors.toList());
+        return ResponseEntity.ok(productosDTO);
+    }
     
     
     

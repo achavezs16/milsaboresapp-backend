@@ -19,6 +19,7 @@ public class ProductoCreateDTOToProductoConverter implements Converter<ProductoC
         producto.setDescProd(productoCreateDTO.getDescProd());
         producto.setPrecioProd(productoCreateDTO.getPrecioProd());
         producto.setImagenProd(productoCreateDTO.getImagenProd());
+        producto.setProductoDestacado(productoCreateDTO.getProductoDestacado());
 
         return producto;
     }
