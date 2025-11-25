@@ -32,8 +32,4 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
         return findByRolUsuario(RolUsuario.ADMIN);
     }    
 
-    //Consulta login
-    @Query("SELECT u FROM Usuario u WHERE u.emailUsuario = :emailUsuario AND u.passwordUsuario = :passwordUsuario")
-    Optional<Usuario> findByEmailPassword(@Param("emailUsuario") String emailUsuario, @Param("passwordUsuario") String passwordUsuario);
-
 }

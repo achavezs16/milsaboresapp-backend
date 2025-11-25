@@ -8,6 +8,8 @@ import com.milsaboresbackend.milsaboresapp.model.RolUsuario;
 import com.milsaboresbackend.milsaboresapp.model.Usuario;
 import com.milsaboresbackend.milsaboresapp.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +24,7 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final UsuarioToUsuarioDTOConverter toDtoConverter;
     private final UsuarioCreateDTOToUsuarioConverter toEntityConverter;
+    private final PasswordEncoder passwordEncoder;
 
     //Obtener todos los usuarios
     public List<UsuarioDTO> findAllUsuarios() {
@@ -51,6 +54,10 @@ public class UsuarioService {
         }
 
         Usuario usuario = toEntityConverter.convert(usuarioCreateDTO);
+
+        String passwordEncriptada = passwordEncoder.encode(usuarioCreateDTO.getPasswordUsuario());
+        usuario.setPasswordUsuario(passwordEncriptada);
+
         Usuario savedUsuario = usuarioRepository.save(usuario);
         return toDtoConverter.convert(savedUsuario);
     }
@@ -60,17 +67,21 @@ public class UsuarioService {
         Usuario existingUsuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        // Validar que el email no esté usado por otro usuario
+        //Validar que el email no esté usado por otro usuario
         if (!existingUsuario.getEmailUsuario().equals(usuarioCreateDTO.getEmailUsuario()) &&
             usuarioRepository.existsByEmailUsuario(usuarioCreateDTO.getEmailUsuario())) {
             throw new RuntimeException("El email ya está registrado por otro usuario");
         }
 
-        // Actualizar campos
+        //Actualizar campos
         existingUsuario.setNombreUsuario(usuarioCreateDTO.getNombreUsuario());
         existingUsuario.setApellidoUsuario(usuarioCreateDTO.getApellidoUsuario());
         existingUsuario.setEmailUsuario(usuarioCreateDTO.getEmailUsuario());
-        existingUsuario.setPasswordUsuario(usuarioCreateDTO.getPasswordUsuario());
+
+        if (usuarioCreateDTO.getPasswordUsuario() != null && !usuarioCreateDTO.getPasswordUsuario().isEmpty()) {
+            String passwordEncriptada = passwordEncoder.encode(usuarioCreateDTO.getPasswordUsuario());
+            existingUsuario.setPasswordUsuario(passwordEncriptada);
+        }
         existingUsuario.setRolUsuario(usuarioCreateDTO.getRolUsuario());
 
         Usuario updatedUsuario = usuarioRepository.save(existingUsuario);
@@ -118,8 +129,14 @@ public class UsuarioService {
 
     //Validar credenciales (para login)
     public Optional<UsuarioDTO> validateLogin(String email, String password) {
-        return usuarioRepository.findByEmailPassword(email, password)
-                .map(toDtoConverter::convert);
+        Optional<Usuario> usuarioOpt = usuarioRepository.findByEmailUsuario(email);
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+            if (passwordEncoder.matches(password, usuario.getPasswordUsuario())) {
+                return Optional.of(toDtoConverter.convert(usuario));
+            }
+        }
+        return Optional.empty();
     }
 
     //Verificar si existe usuario por ID
