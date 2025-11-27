@@ -1,4 +1,4 @@
-application-backup.properties
+src/main/resources/application-dev.properties
 target/
 *.jar
 .DS_Store

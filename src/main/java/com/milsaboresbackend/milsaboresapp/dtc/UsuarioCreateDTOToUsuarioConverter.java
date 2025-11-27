@@ -1,9 +1,11 @@
 package com.milsaboresbackend.milsaboresapp.dtc;
 
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
 import com.milsaboresbackend.milsaboresapp.model.Usuario;
 
+@Component
 public class UsuarioCreateDTOToUsuarioConverter implements Converter<UsuarioCreateDTO, Usuario> {
 
     @Override

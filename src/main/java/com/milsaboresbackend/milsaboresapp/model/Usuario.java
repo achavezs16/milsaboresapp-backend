@@ -33,8 +33,8 @@ public class Usuario {
     private String emailUsuario;
 
     @NotBlank(message = "Campo obligatorio")
-    @Size(max = 50, message = "Contraseña no puede exceder los 50 caracteres")
-    @Column(name = "password_usuario", nullable = false, length = 50)
+    @Size(max = 300, message = "Contraseña no puede exceder los 300 caracteres")
+    @Column(name = "password_usuario", nullable = false, length = 300)
     private String passwordUsuario;
 
     @Enumerated(EnumType.STRING)

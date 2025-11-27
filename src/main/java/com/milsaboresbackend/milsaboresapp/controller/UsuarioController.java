@@ -1,6 +1,5 @@
 package com.milsaboresbackend.milsaboresapp.controller;
 
-import com.milsaboresbackend.milsaboresapp.dtc.LoginResponseDTO;
 import com.milsaboresbackend.milsaboresapp.dtc.UsuarioCreateDTO;
 import com.milsaboresbackend.milsaboresapp.dtc.UsuarioDTO;
 import com.milsaboresbackend.milsaboresapp.model.RolUsuario;
@@ -97,20 +96,6 @@ public class UsuarioController {
     public ResponseEntity<List<UsuarioDTO>> listarAdministradores() {
         List<UsuarioDTO> administradores = usuarioService.findAllAdministradores();
         return ResponseEntity.ok(administradores);
-    }
-
-    //Endpoint específico para login
-    @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> login(@RequestParam String emailUsuario, 
-                                                @RequestParam String passwordUsuario) {
-        Optional<UsuarioDTO> usuario = usuarioService.validateLogin(emailUsuario, passwordUsuario);
-        
-        if (usuario.isPresent()) {
-            return ResponseEntity.ok(LoginResponseDTO.success(usuario.get()));
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                            .body(LoginResponseDTO.error("Credenciales inválidas"));
-        }
     }
 
     // ✅ Verificar si existe usuario por ID
