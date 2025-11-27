@@ -2,3 +2,6 @@ src/main/resources/application.properties
 application-backup.properties
 target/
 *.jar
+.DS_Store
+.vscode/
+HELP.md
