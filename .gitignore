@@ -1,4 +1,3 @@
-src/main/resources/application.properties
 application-backup.properties
 target/
 *.jar
