@@ -33,7 +33,6 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 // Endpoints PÚBLICOS (sin autenticación)
                 .requestMatchers("/api/v1/auth/**").permitAll()
-                .requestMatchers("/api/v1/usuarios").permitAll()
                 
                 // ✅ PRODUCTOS - LECTURA PÚBLICA
                 .requestMatchers(HttpMethod.GET, "/api/v1/productos").permitAll()
@@ -43,10 +42,6 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/v1/productos/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/v1/productos/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/v1/productos/**").hasRole("ADMIN")
-                
-                // Endpoints de ADMIN
-                .requestMatchers("/api/v1/usuarios/administradores").hasRole("ADMIN")
-                .requestMatchers("/api/v1/dashboard/**").hasRole("ADMIN")
                 
                 // Endpoints para usuarios autenticados (CLIENTE o ADMIN)
                 .requestMatchers("/api/v1/usuarios/**").hasAnyRole("ADMIN", "CLIENTE")
