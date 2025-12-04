@@ -32,6 +32,7 @@ public class SecurityConfig {
             )
             .authorizeHttpRequests(auth -> auth
                 // Endpoints PÚBLICOS (sin autenticación)
+                .requestMatchers(HttpMethod.POST, "/api/v1/usuarios").permitAll()
                 .requestMatchers("/api/v1/auth/**").permitAll()
                 
                 // ✅ PRODUCTOS - LECTURA PÚBLICA
